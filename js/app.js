@@ -17,78 +17,100 @@ class catClicks {
 
 }
 
+// MODEL
 const allcats = ['burly1','burly2','burly3','burly4','burly5'];
 
 let cat_objs = [];
+
+
+// OCTOPUS
+function oct_init() {
 
 for (var c = 0; c < allcats.length; c++) {
 cat_objs[c] = new catClicks();
 }
 
+catlist_init();
+cat_image(0);
+}
+
+function oct_get_allcats () {
+return(allcats);
+}
+
+function oct_get_allcatsLength() {
+return(allcats.length);
+}
+
+function oct_getFirstCat() {
+return(allcats[0]);
+}
+
+function oct_getCatName(index) {
+return(allcats[index]);
+}
+
+function oct_addClicks(index) {
+cat_objs[index].addcatClicks();
+}
+
+function oct_getClicks(index) {
+return(cat_objs[index].getcatClicks());
+}
+
+// VIEW
+
+function catlist_init() {
+
 var main_page_content = document.getElementById("main_page_content");
 
+for (var i = 0; i < oct_get_allcatsLength(); i++) {
 
-for (var i = 0; i < allcats.length; i++) {
-
-    // This is the number we're on...
-    var catname = allcats[i];
-
-    // We're creating a DOM element for the number
     var elem = document.createElement('div');
-    elem.textContent = catname;
+    elem.textContent = oct_getCatName(i);
+    main_page_content.appendChild(elem);
 
-    // ... and when we click, alert the value of `num`
-    elem.addEventListener('click', (function(index) {
+
+// add eventListener to each item in the cat name list
+
+elem.addEventListener('click', (function(index) {
         return function() {
-            //alert(index);
-var katname = allcats[index];
-var tmp_cat_image = katname + '.jpeg'
-//cat_objs[index].addcatClicks();
+cat_image(index);
 
+     };
+    })(i));
+}
 
-// display the cat pic
+}
 
-var src = document.getElementById("cat_image");
-
+function cat_msg_render(index) {
 var cat_msg = document.getElementById("cat_msg");
-// clean up any previous click messages
-while(src.childNodes.length >= 1) {
-    src.removeChild(src.firstChild);
-  }
-while(cat_msg.childNodes.length >= 1) {
-    cat_msg.removeChild(cat_msg.firstChild);
-  }
+cat_msg.innerHTML = '';
+var p = document.createElement('p');
+var txt = document.createTextNode(oct_getCatName(index) + '   Amount of image clicks: ' + oct_getClicks(index) );
+p.appendChild(txt);
+cat_msg.appendChild(p);
+}
 
+function cat_image(index) {
+var cat_img = document.getElementById("cat_image");
+cat_img.innerHTML = '';
 
 var img = document.createElement("img");
-img.src = 'images/' + tmp_cat_image ;
+img.src = 'images/' + oct_getCatName(index) + '.jpeg' ;
 img.width = "500";
 img.height = "333";
-var p = document.createElement('p');
-var txt = document.createTextNode(katname + '   Amount of image clicks: ' + cat_objs[index].getcatClicks() );
-p.appendChild(txt);
-cat_msg.appendChild(p);
+cat_img.appendChild(img);
 
 img.addEventListener('click',function(event){
-cat_objs[index].addcatClicks();
-while(cat_msg.childNodes.length >= 1) {
-    cat_msg.removeChild(cat_msg.firstChild);
-  }
-
-var p = document.createElement('p');
-var txt = document.createTextNode(katname + '   Amount of image clicks: ' + cat_objs[index].getcatClicks() );
-p.appendChild(txt);
-cat_msg.appendChild(p);
+oct_addClicks(index);
+cat_msg_render(index);
 });
 
-src.appendChild(img);
+cat_msg_render(index);
 
 
-        };
-    })(i));
+}
 
-    main_page_content.appendChild(elem);
-};
-
-
+oct_init();
 
