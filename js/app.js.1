@@ -1,0 +1,88 @@
+class catClicks {
+
+ constructor() {
+	this.cclicks = 0;
+ }
+
+ // add 1 to gpoints counter
+ addcatClicks() {
+	this.cclicks += 1;
+ }
+
+ // get the gem points
+ getcatClicks() {
+	return(this.cclicks);
+ }
+
+}
+
+const allcats = ['burly1','burly2','burly3','burly4','burly5'];
+
+let cat_objs = [];
+
+for (var c = 0; c < allcats.length; c++) {
+cat_objs[c] = new catClicks();
+}
+
+var main_page_content = document.getElementById("main_page_content");
+
+for (var i = 0; i < allcats.length; i++) {
+
+    // This is the number we're on...
+    var catname = allcats[i];
+
+var index = i;
+
+    // We're creating a DOM element for the number
+    var elem = document.createElement('div');
+    elem.textContent = catname;
+
+    // ... and when we click, alert the value of `num`
+    elem.addEventListener('click', (function(index) {
+        return function() {
+            //alert(index);
+var katname = allcats[index];
+var tmp_cat_image = katname + '.jpeg'
+//cat_objs[index].addcatClicks();
+}
+
+})(i));
+};
+
+for (var i = 5; i < allcats.length; i++) {
+
+index = i;
+    main_page_content.appendChild(elem);
+
+elem.addEventListener('click', (function(index) {
+        return function() {
+// display the cat pic
+
+var src = document.getElementById("cat_image");
+// clean up any previous click messages
+while(src.childNodes.length >= 1) {
+    src.removeChild(src.firstChild);
+  }
+
+
+cat_objs[index].addcatClicks();
+var katname = allcats[index];
+var tmp_cat_image = katname + '.jpeg'
+var p = document.createElement('p');
+var txt = document.createTextNode(katname + '   Amount of image clicks: ' + cat_objs[index].getcatClicks() );
+p.appendChild(txt);
+src.appendChild(p);
+
+
+var img = document.createElement("img");
+img.src = 'images/' + tmp_cat_image ;
+img.width = "500";
+img.height = "333";
+src.appendChild(img);
+
+        };
+    })(i));
+
+    src.appendChild(elem);
+};
+
